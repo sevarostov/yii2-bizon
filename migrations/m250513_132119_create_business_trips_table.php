@@ -16,8 +16,6 @@ class m250513_132119_create_business_trips_table extends Migration {
 			'id' => $this->primaryKey(),
 			'username' => Schema::TYPE_STRING . ' NOT NULL',
 			'password' => Schema::TYPE_STRING . ' NOT NULL',
-			'authKey' => Schema::TYPE_STRING . ' NOT NULL',
-			'accessToken' => Schema::TYPE_TEXT . ' NOT NULL',
 			'created_at' => $this->dateTime()->defaultExpression('CURRENT_TIMESTAMP'),
 			'updated_at' => $this->dateTime()->defaultValue(NULL),
 		]);

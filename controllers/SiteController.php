@@ -2,13 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\Users;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -20,19 +20,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout'],
+                'only' => ['save', 'delete', 'logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'save', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -61,68 +55,49 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index', ['models' => Users::find()->all()]);
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+	private function loadModel($id)
+	{
+		$model = Users::find($id);
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
+		if ($model == NULL)
+			throw new HttpException(404, 'Model not found.');
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
+		return $model;
+	}
 
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
+	public function actionDelete($id=NULL)
+	{
+		$model = $this->loadModel($id);
 
-        return $this->goHome();
-    }
+		if (!$model->delete())
+			Yii::$app->session->setFlash('error', 'Unable to delete model');
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+		$this->redirect($this->createUrl('site/index'));
+	}
 
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
+	public function actionSave($id=NULL)
+	{
+		if ($id == NULL)
+			$model = new Users;
+		else
+			$model = $this->loadModel($id);
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+		if (isset($_POST['Users']))
+		{
+			$model->load($_POST);
+
+			if ($model->save())
+			{
+				Yii::$app->session->setFlash('success', 'Model has been saved');
+				$this->redirect(\Yii::$app->urlManager->createUrl('site/save', ['id' => $model->id]));
+			}
+			else
+				Yii::$app->session->setFlash('error', 'Model could not be saved');
+		}
+
+		return $this->render('save', ['model' => $model]);
+	}
 }
