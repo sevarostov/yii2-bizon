@@ -2,7 +2,10 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+/**
+ * @property UserBusinessTrip[] $userBusinessTrips
+ */
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
     public $id;
     public $username;
@@ -101,4 +104,14 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     {
         return $this->password === $password;
     }
+
+	/**
+	 * Gets query for [[UserBusinessTrips]].
+	 *
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getUserBusinessTrips()
+	{
+		return $this->hasMany(UserBusinessTrip::class, ['user_id' => 'id']);
+	}
 }
