@@ -20,7 +20,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['save', 'delete', 'logout'],
+                'only' => ['logout'],
                 'rules' => [
                     [
                         'actions' => ['index', 'save', 'delete'],
@@ -84,7 +84,6 @@ class SiteController extends Controller
 			$model = new Users;
 		else
 			$model = $this->loadModel($id);
-
 		if (isset($_POST['Users']))
 		{
 			$model->load($_POST);
@@ -92,7 +91,7 @@ class SiteController extends Controller
 			if ($model->save())
 			{
 				Yii::$app->session->setFlash('success', 'Model has been saved');
-				$this->redirect(\Yii::$app->urlManager->createUrl('site/save', ['id' => $model->id]));
+				$this->redirect(\Yii::$app->urlManager->createUrl(['site/save', ['id' => $model->id]]));
 			}
 			else
 				Yii::$app->session->setFlash('error', 'Model could not be saved');
