@@ -117,10 +117,11 @@ class BusinessTrips extends ActiveRecord
 	 * @return string
 	 */
 	public function getCurrentBeginAt(): string {
-		return $this->getBusinessTripsServices()
-			->orderBy('begin_at ASC')
-			->one()
-			->begin_at;
+		return $this->getBusinessTripsServices()->count()
+			? $this->getBusinessTripsServices()
+				->orderBy('begin_at ASC')
+				->one()->begin_at
+			: "";
 	}
 
 	/**
@@ -129,10 +130,12 @@ class BusinessTrips extends ActiveRecord
 	 * @return string
 	 */
 	public function getCurrentEndAt(): string {
-		return $this->getBusinessTripsServices()
-			->orderBy('end_at DESC')
-			->one()
-			->end_at;
+		return $this->getBusinessTripsServices()->count()
+			? $this->getBusinessTripsServices()
+				->orderBy('end_at DESC')
+				->one()
+				->end_at
+			: "";
 	}
 
 }
