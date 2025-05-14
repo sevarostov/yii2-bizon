@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use services\BusinessTripsService;
 use Yii;
 
 /**
@@ -15,7 +16,7 @@ use Yii;
  * @property string|null $created_at
  * @property string|null $updated_at
  *
- * @property BusinessTripService[] $businessTripsServices
+ * @property BusinessTripsServices[] $businessTripsServices
  * @property Services[] $services
  * @property Users[] $users
  * @property UsersBusinessTrips[] $usersBusinessTrips
@@ -69,7 +70,7 @@ class BusinessTrips extends \yii\db\ActiveRecord
      */
     public function getBusinessTripsServices()
     {
-        return $this->hasMany(BusinessTripService::class, ['business_trip_id' => 'id']);
+        return $this->hasMany(BusinessTripsServices::class, ['business_trip_id' => 'id']);
     }
 
     /**
@@ -101,5 +102,38 @@ class BusinessTrips extends \yii\db\ActiveRecord
     {
         return $this->hasMany(UsersBusinessTrips::class, ['business_trip_id' => 'id']);
     }
+
+	/**
+	 * @param int $serviceId
+	 *
+	 * @return bool|int|string|null
+	 */
+	public function countBusinesTripsServiceServices(int $serviceId) {
+		return $this->getServices()->where(['id' => $serviceId])->count();
+	}
+
+	/**
+	 * Текущая актуальная дата начала командировки
+	 *
+	 * @return mixed
+	 */
+	public function getCurrentBeginAt() {
+		return $this->getBusinessTripsServices()
+			->orderBy('begin_at ASC')
+			->one()
+			->begin_at;
+	}
+
+	/**
+	 * Текущая актуальная дата окончания командировки
+	 *
+	 * @return mixed
+	 */
+	public function getCurrentEndAt() {
+		return $this->getBusinessTripsServices()
+			->orderBy('end_at DESC')
+			->one()
+			->end_at;
+	}
 
 }

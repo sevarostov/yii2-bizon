@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "business_trips_services".
@@ -14,10 +15,10 @@ use Yii;
  * @property string|null $end_at
  * @property string|null $created_at
  *
- * @property BusinessTrips $businessTrip
+ * @property BusinessTrips $businessTrips
  * @property Services $service
  */
-class BusinessTripService extends \yii\db\ActiveRecord
+class BusinessTripsServices extends ActiveRecord
 {
 
 
@@ -66,7 +67,7 @@ class BusinessTripService extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getBusinessTrip()
+    public function getBusinessTrips()
     {
         return $this->hasOne(BusinessTrips::class, ['id' => 'business_trip_id']);
     }
@@ -81,4 +82,10 @@ class BusinessTripService extends \yii\db\ActiveRecord
         return $this->hasOne(Services::class, ['id' => 'service_id']);
     }
 
+	/**
+	 * @return string
+	 */
+	public function __toString(): string {
+		return $this->businessTrips->title;
+	}
 }

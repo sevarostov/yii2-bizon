@@ -76,7 +76,7 @@ class m250513_132119_create_business_trips_table extends Migration {
 			'updated_at' => $this->dateTime()->defaultValue(NULL),
 		]);
 
-		foreach (['авиа', 'жд', 'гостиница'] as $service) {
+		foreach (['перелёт', 'проезд на поезде', 'проживание', 'бронирование столика в ресторане'] as $service) {
 			$this->insert('services', ['name' => $service,]);
 		}
 

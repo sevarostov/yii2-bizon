@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Users;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -92,7 +93,9 @@ class SiteController extends Controller {
 		if ($id == NULL) {
 			$model = new Users;
 		} else {
+			/** @var Users $model */
 			$model = $this->loadModel($id);
+			$model->updated_at = new Expression('NOW()');
 		}
 
 		if (isset($_POST['Users'])) {

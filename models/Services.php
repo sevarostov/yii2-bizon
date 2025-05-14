@@ -13,7 +13,7 @@ use Yii;
  * @property string|null $updated_at
  *
  * @property BusinessTrips[] $businessTrips
- * @property BusinessTripService[] $businessTripsServices
+ * @property BusinessTripsServices[] $businessTripsServices
  */
 class Services extends \yii\db\ActiveRecord
 {
@@ -70,7 +70,7 @@ class Services extends \yii\db\ActiveRecord
      */
     public function getBusinessTripsServices()
     {
-        return $this->hasMany(BusinessTripService::class, ['service_id' => 'id']);
+        return $this->hasMany(BusinessTripsServices::class, ['service_id' => 'id']);
     }
 
 }

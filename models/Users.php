@@ -75,4 +75,10 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasMany(UsersBusinessTrips::class, ['user_id' => 'id']);
     }
 
+	/**
+	 * @return string
+	 */
+	public function __toString(): string {
+		return $this->username;
+	}
 }

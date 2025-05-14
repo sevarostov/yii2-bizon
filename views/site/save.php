@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 		<?php echo $form->field($model, 'username')->textInput(array('class' => 'form-control')); ?>
 	</div>
 	<div class="form-group">
-		<?php echo $form->field($model, 'password')->textInput(array('class' => 'form-control')); ?>
+		<?php echo $form->field($model, 'password')->passwordInput(); ?>
 	</div>
 <?php echo Html::submitButton('Submit', array('class' => 'btn btn-primary pull-right')); ?>
 <?php ActiveForm::end(); ?>
