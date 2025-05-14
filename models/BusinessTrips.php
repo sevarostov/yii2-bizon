@@ -2,8 +2,7 @@
 
 namespace app\models;
 
-use services\BusinessTripsService;
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "business_trips".
@@ -21,7 +20,7 @@ use Yii;
  * @property Users[] $users
  * @property UsersBusinessTrips[] $usersBusinessTrips
  */
-class BusinessTrips extends \yii\db\ActiveRecord
+class BusinessTrips extends ActiveRecord
 {
 
 
@@ -115,9 +114,9 @@ class BusinessTrips extends \yii\db\ActiveRecord
 	/**
 	 * Текущая актуальная дата начала командировки
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function getCurrentBeginAt() {
+	public function getCurrentBeginAt(): string {
 		return $this->getBusinessTripsServices()
 			->orderBy('begin_at ASC')
 			->one()
@@ -127,9 +126,9 @@ class BusinessTrips extends \yii\db\ActiveRecord
 	/**
 	 * Текущая актуальная дата окончания командировки
 	 *
-	 * @return mixed
+	 * @return string
 	 */
-	public function getCurrentEndAt() {
+	public function getCurrentEndAt(): string {
 		return $this->getBusinessTripsServices()
 			->orderBy('end_at DESC')
 			->one()

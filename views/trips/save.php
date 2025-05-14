@@ -32,20 +32,21 @@ use yii\widgets\ActiveForm;
 	<?php foreach ($businesTripsServices as $businesTripsService): ?>
 		<div id="service_<?php echo $businesTripsService->service_id ?>" <?php if ($model->countBusinesTripsServiceServices($businesTripsService->service_id) == 0) : ?>
 			style="display:none"
-	<?php endif; ?>>
+		<?php endif; ?>>
 			<label>
 				<?php echo "Услуга: " . $businesTripsService->service->name; ?>
 			</label>
 			<div class="form-group">
-				<?php echo $form->field($businesTripsService, 'choosen['. $businesTripsService->service_id . ']')
-					->textInput(array('class' => 'form-control', 'value'=>$businesTripsService->choosen)); ?>
+				<?php echo $form->field($businesTripsService, 'choosen[' . $businesTripsService->service_id . ']')
+					->textInput(array('class' => 'form-control', 'value' => $businesTripsService->choosen)); ?>
 			</div>
 			<div class="form-group">
-				<?php echo $form->field($businesTripsService, 'begin_at['. $businesTripsService->service_id . ']')
-					->textInput(array('class' => 'form-control', 'value'=>$businesTripsService->begin_at)); ?>
+				<?php echo $form->field($businesTripsService, 'begin_at[' . $businesTripsService->service_id . ']')
+					->textInput(array('class' => 'form-control', 'value' => $businesTripsService->begin_at)); ?>
 			</div>
 			<div class="form-group">
-				<?php echo $form->field($businesTripsService, 'end_at['. $businesTripsService->service_id . ']')->textInput(array('class' => 'form-control', 'value'=>$businesTripsService->end_at)); ?>
+				<?php echo $form->field($businesTripsService, 'end_at[' . $businesTripsService->service_id . ']')
+					->textInput(array('class' => 'form-control', 'value' => $businesTripsService->end_at)); ?>
 			</div>
 		</div>
 	<?php endforeach; ?>

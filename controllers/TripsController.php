@@ -99,12 +99,12 @@ class TripsController extends Controller {
 
 		$businesTripsServices = [];
 		/** @var Services $service */
-		foreach($services as $service){
+		foreach ($services as $service) {
 			$businesTripsService = BusinessTripsServices::find()->where([
 				'service_id' => $service->id,
 				'business_trip_id' => $model->id
 			])->one();
-			if(!$businesTripsService){
+			if (!$businesTripsService) {
 				$businesTripsService = new BusinessTripsServices();
 			}
 			$businesTripsService->service_id = $service->id;
@@ -141,7 +141,7 @@ class TripsController extends Controller {
 							}
 						}
 					}
-					foreach($data as $serviceId => $item){
+					foreach ($data as $serviceId => $item) {
 						$businesTripsService = new BusinessTripsServices();
 						$businesTripsService->service_id = $serviceId;
 						$businesTripsService->business_trip_id = $model->id;
