@@ -20,6 +20,8 @@ class m250513_132119_create_business_trips_table extends Migration {
 			'updated_at' => $this->dateTime()->defaultValue(NULL),
 		]);
 
+		$this->createIndex('username', 'users', 'username', $unique = true );
+
 		$this->createTable('business_trips', [
 			'id' => $this->primaryKey(),
 			'title' => Schema::TYPE_STRING . ' NOT NULL',
